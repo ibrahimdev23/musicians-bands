@@ -20,7 +20,9 @@ describe("Band, Musician, and Song Models", () => {
 
   test("can create a Musician", async () => {
     // TODO - test creating a musician
-    expect("NO TEST").toBe("EXPECTED VALUE HERE");
+    const musician1 = await Musician.create({name:"john", instrument:"piano"})
+    expect(musician1.name).toBe('john');
+
   });
 
   test("can update a Band", async () => {
@@ -31,8 +33,12 @@ describe("Band, Musician, and Song Models", () => {
   });
 
   test("can update a Musician", async () => {
-    // TODO - test updating a musician
-    expect("NO TEST").toBe("EXPECTED VALUE HERE");
+     // TODO - test updating a musician
+     const musician2 = await Musician.create({name:"cena", instrument:"piano"})
+     musician2.name = "John"
+     await musician2.save()
+     expect(musician2.name).toBe('John');
+
   });
 
   test("can delete a Band", async () => {
@@ -46,6 +52,9 @@ describe("Band, Musician, and Song Models", () => {
 
   test("can delete a Musician", async () => {
     // TODO - test deleting a musician
-    expect("NO TEST").toBe("EXPECTED VALUE HERE");
+    const musician2 = await Musician.create({name:"cena", instrument:"piano"})
+    musician2.name = "John"
+    await musician2.save()
+    expect(musician2.name).toBe('John');
   });
 });
