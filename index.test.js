@@ -24,6 +24,18 @@ describe("Band, Musician, and Song Models", () => {
     expect(musician1.name).toBe('john');
 
   });
+    
+  test("can create a Song", async () => {
+    // TODO - test creating a song
+    const newSong = await Song.create({
+      title: "My Song",
+      year: 2024,
+      length: 300,
+    });
+    expect(newSong.title).toBe("My Song");
+    expect(newSong.year).toBe(2024);
+    expect(newSong.length).toBe(300);
+  });
 
   test("can update a Band", async () => {
     // TODO - test updating a band
@@ -39,6 +51,24 @@ describe("Band, Musician, and Song Models", () => {
      await musician2.save()
      expect(musician2.name).toBe('John');
 
+  });
+    
+  test("can update a Song", async () => {
+    // TODO - test updating a song
+    const newSong = await Song.create({
+      title: "My Song",
+      year: 2024,
+      length: 300,
+    });
+
+    const updatedSong = await newSong.update({
+      title: "Updated Song Title",
+      year: 2025,
+      length: 350,
+    });
+    expect(updatedSong.title).toBe("Updated Song Title");
+    expect(updatedSong.year).toBe(2025);
+    expect(updatedSong.length).toBe(350);
   });
 
   test("can delete a Band", async () => {
@@ -56,5 +86,18 @@ describe("Band, Musician, and Song Models", () => {
     musician2.name = "John"
     await musician2.save()
     expect(musician2.name).toBe('John');
+  });
+    
+  test("can delete a Song", async () => {
+    // TODO - test deleting a musician
+    const newSong = await Song.create({
+      title: "My Song",
+      year: 2024,
+      length: 300,
+    });
+    await newSong.destroy()
+
+    const deletedSong = await Song.findOne({ where: { title: newSong.title } });
+    expect(deletedSong.createdAt).toBeDefined()
   });
 });
