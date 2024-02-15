@@ -131,22 +131,22 @@ describe("Many-to-Many associations", function () {
 
     expect(associatedSongs).toBeTruthy();
   });
-});
 
-test("Song-Band, Song can have many bands", async () => {
-  const bands = await Band.bulkCreate([
-    { name: "George", genre: "rock" },
-    { name: "Sally", genre: "Pop" },
-  ]);
+  test("Song-Band, Song can have many bands", async () => {
+    const bands = await Band.bulkCreate([
+      { name: "George", genre: "rock" },
+      { name: "Sally", genre: "Pop" },
+    ]);
 
-  const song = await Song.create({
-    title: "My Song",
-    year: 2024,
-    length: 300,
+    const song = await Song.create({
+      title: "My Song",
+      year: 2024,
+      length: 300,
+    });
+
+    await song.addBand(bands);
+    const associatedBands = await song.getBands();
+
+    expect(associatedBands).toBeTruthy();
   });
-
-  await song.addBand(bands);
-  const associatedBands = await song.getBands();
-
-  expect(associatedBands).toBeTruthy();
 });
