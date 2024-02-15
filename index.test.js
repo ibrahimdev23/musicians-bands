@@ -20,11 +20,13 @@ describe("Band, Musician, and Song Models", () => {
 
   test("can create a Musician", async () => {
     // TODO - test creating a musician
-    const musician1 = await Musician.create({name:"john", instrument:"piano"})
-    expect(musician1.name).toBe('john');
-
+    const musician1 = await Musician.create({
+      name: "john",
+      instrument: "piano",
+    });
+    expect(musician1.name).toBe("john");
   });
-    
+
   test("can create a Song", async () => {
     // TODO - test creating a song
     const newSong = await Song.create({
@@ -45,14 +47,16 @@ describe("Band, Musician, and Song Models", () => {
   });
 
   test("can update a Musician", async () => {
-     // TODO - test updating a musician
-     const musician2 = await Musician.create({name:"cena", instrument:"piano"})
-     musician2.name = "John"
-     await musician2.save()
-     expect(musician2.name).toBe('John');
-
+    // TODO - test updating a musician
+    const musician2 = await Musician.create({
+      name: "cena",
+      instrument: "piano",
+    });
+    musician2.name = "John";
+    await musician2.save();
+    expect(musician2.name).toBe("John");
   });
-    
+
   test("can update a Song", async () => {
     // TODO - test updating a song
     const newSong = await Song.create({
@@ -82,12 +86,15 @@ describe("Band, Musician, and Song Models", () => {
 
   test("can delete a Musician", async () => {
     // TODO - test deleting a musician
-    const musician2 = await Musician.create({name:"cena", instrument:"piano"})
-    musician2.name = "John"
-    await musician2.save()
-    expect(musician2.name).toBe('John');
+    const musician2 = await Musician.create({
+      name: "cena",
+      instrument: "piano",
+    });
+    musician2.name = "John";
+    await musician2.save();
+    expect(musician2.name).toBe("John");
   });
-    
+
   test("can delete a Song", async () => {
     // TODO - test deleting a musician
     const newSong = await Song.create({
@@ -95,9 +102,51 @@ describe("Band, Musician, and Song Models", () => {
       year: 2024,
       length: 300,
     });
-    await newSong.destroy()
+    await newSong.destroy();
 
     const deletedSong = await Song.findOne({ where: { title: newSong.title } });
-    expect(deletedSong.createdAt).toBeDefined()
+    expect(deletedSong.createdAt).toBeDefined();
   });
+});
+
+describe("Many-to-Many associations", function () {
+  test("Song-Band, Band can have many Songs", async () => {
+    const band = await Band.create({ name: "George", genre: "rock" });
+
+    const songs = await Song.bulkCreate([
+      {
+        title: "My Song",
+        year: 2024,
+        length: 300,
+      },
+      {
+        title: "My Song 2",
+        year: 2024,
+        length: 300,
+      },
+    ]);
+
+    await band.addSong(songs);
+    const associatedSongs = await band.getSongs();
+
+    expect(associatedSongs).toBeTruthy();
+  });
+});
+
+test("Song-Band, Song can have many bands", async () => {
+  const bands = await Band.bulkCreate([
+    { name: "George", genre: "rock" },
+    { name: "Sally", genre: "Pop" },
+  ]);
+
+  const song = await Song.create({
+    title: "My Song",
+    year: 2024,
+    length: 300,
+  });
+
+  await song.addBand(bands);
+  const associatedBands = await song.getBands();
+
+  expect(associatedBands).toBeTruthy();
 });

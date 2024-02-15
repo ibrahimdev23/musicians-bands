@@ -1,3 +1,4 @@
+
 const { Sequelize, sequelize, DataTypes } = require('../db');
 
 // TODO - define the Song model
@@ -8,5 +9,5 @@ let Song = sequelize.define('Song', {
 });
 
 module.exports = {
-    Song
+  Song,
 };
