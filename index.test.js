@@ -150,3 +150,36 @@ test("Song-Band, Song can have many bands", async () => {
 
   expect(associatedBands).toBeTruthy();
 });
+
+
+
+
+describe("One-to-Many Associations", function () {
+test("one-many Band-Musician", async () => {
+
+  const musician1 = await Musician.create({
+    name: "john",
+    instrument: "piano",
+  });
+
+  const band = await Band.create({
+    name:"g", genre:"pop"
+  })
+
+  const band2 = await Band.create({
+    name:"r", genre:"hiphop"
+  })
+  const musicians = await Musician.bulkCreate([
+    { name: "smith",  instrument: "piano" },
+    { name: "james",  instrument: "piano" },
+    { name: "josh",  instrument: "piano" },
+  ]);
+
+  await band.addMusicians(musician1)
+  await band.addMusicians(musicians)
+  const bandMembers = await band.getMusicians()
+
+  expect(bandMembers.length).toBe(4)
+})
+  
+})
